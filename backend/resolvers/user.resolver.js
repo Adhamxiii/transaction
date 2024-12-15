@@ -1,6 +1,6 @@
-import { users } from "../dummyData/data.js";
-import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import Transaction from "../models/transaction.model.js";
+import User from "../models/user.model.js";
 
 const userResolver = {
   Query: {
@@ -59,7 +59,8 @@ const userResolver = {
     login: async (_, { input }, context) => {
       try {
         const { username, password } = input;
-        if(!username || !password) throw new Error("Please fill in all the fields");
+        if (!username || !password)
+          throw new Error("Please fill in all the fields");
         const { user } = await context.authenticate("graphql-local", {
           username,
           password,
@@ -83,6 +84,17 @@ const userResolver = {
       } catch (error) {
         console.error("Error in logout: ", error);
         throw new Error(error.message || "Error in logout");
+      }
+    },
+  },
+  User: {
+    transactions: async (parent) => {
+      try {
+        const transactions = await Transaction.find({ userId: parent._id });
+        return transactions;
+      } catch (error) {
+        console.error("Error in user posts: ", error);
+        throw new Error(error.message || "Error in user posts");
       }
     },
   },
