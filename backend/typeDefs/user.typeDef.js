@@ -9,7 +9,6 @@ const userTypeDef = `#graphql
     }
 
     type Query {
-        users: [User!]
         authUser: User
         user(userId: ID!): User
     }
@@ -18,9 +17,6 @@ const userTypeDef = `#graphql
         signUp(input: SignUpInput!): User
         login(input: LoginInput!): User
         logout: LogoutResponse
-        # createUser(username: String!, name: String!, password: String!, profilePicture: String, gender: String!): User
-        # updateUser(userId: ID!, username: String, name: String, password: String, profilePicture: String, gender: String): User
-        # deleteUser(userId: ID!): User
     }
 
     input SignUpInput {
