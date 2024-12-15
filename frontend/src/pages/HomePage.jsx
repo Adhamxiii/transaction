@@ -13,7 +13,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const HomePage = () => {
   const [logout, { data, loading }] = useMutation(LOGOUT, {
-    refetchQueries: [GET_POST, "GetAuthenticatedUser"],
+    refetchQueries: ["GetAuthenticatedUser"],
   });
 
   const chartData = {
@@ -48,8 +48,6 @@ const HomePage = () => {
       toast.error("Something went wrong!");
     }
   };
-
-  console.log("Home", data);
 
   return (
     <>

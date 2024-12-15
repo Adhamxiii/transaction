@@ -11,7 +11,7 @@ const LoginPage = () => {
     password: "",
   });
 
-  const [login, { loading, error }] = useMutation(LOG_IN, {
+  const [login, { loading }] = useMutation(LOG_IN, {
     refetchQueries: ["GetAuthenticatedUser"],
   });
 

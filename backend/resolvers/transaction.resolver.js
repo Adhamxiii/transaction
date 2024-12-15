@@ -54,7 +54,7 @@ const transactionResolver = {
         throw new Error(error.message || "Error in updateTransaction");
       }
     },
-    deleteTransaction: async (_, { transactionId }) => {
+    deleteTransaction: async (_, { transactionId }, context) => {
       try {
         if (!context.getUser) throw new Error("Unauthorized");
         const deletedTransaction = await Transaction.findByIdAndDelete(
