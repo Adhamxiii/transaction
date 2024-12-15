@@ -1,14 +1,21 @@
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 import Cards from "../components/Cards";
 import TransactionForm from "../components/TransactionForm";
 
+import { useMutation } from "@apollo/client";
+import toast from "react-hot-toast";
 import { MdLogout } from "react-icons/md";
+import { LOGOUT } from "../graphql/mutations/user.mutation";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const HomePage = () => {
+  const [logout, { data, loading }] = useMutation(LOGOUT, {
+    refetchQueries: [GET_POST, "GetAuthenticatedUser"],
+  });
+
   const chartData = {
     labels: ["Saving", "Expense", "Investment"],
     datasets: [
@@ -33,11 +40,16 @@ const HomePage = () => {
     ],
   };
 
-  const handleLogout = () => {
-    console.log("Logging out...");
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong!");
+    }
   };
 
-  const loading = false;
+  console.log("Home", data);
 
   return (
     <>
@@ -47,7 +59,7 @@ const HomePage = () => {
             Spend wisely, track wisely
           </p>
           <img
-            src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+            src={data?.authUser?.profilePicture}
             className="w-11 h-11 rounded-full border cursor-pointer"
             alt="Avatar"
           />
